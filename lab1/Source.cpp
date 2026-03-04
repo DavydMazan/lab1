@@ -20,17 +20,19 @@ void product::rounding() {
 
 void product::output() {
 	product::rounding();
-	std::cout << "Ціна продукту: " << bills << " Гривень " << coins << " Копійки" << std::endl;
+	std::cout << "Ціна продукту: " << bills << " Гривень " << coins << " Копійок" << std::endl;
 }
 
 void product::totalcalculate(product items[], int size) {
 	product total;
-	for (int j = 0; j < size; j++) {
-		items[j].multiply(items[j].count);
-		total.plus(items[j].bills, items[j].coins);
+
+	for (int i = 0; i < size; i++) {
+		items[i].multiply(items[i].count);
+		total.plus(items[i].bills, items[i].coins);
 	}
 	total.rounding();
-	std::cout << "Сума чеку: " << total.bills << " Гривень " << total.coins << " Копійки" << std::endl;
+	std::cout << "Сума чеку: " << total.bills << " Гривень " << total.coins << " Копійок" << std::endl;
 	total.coins = ((total.coins + 9) / 10) * 10;
-	std::cout << "Сума до оплати з заокругленням: " << total.bills << " Гривень " << total.coins << " Копійки" << std::endl;
+	total.rounding();
+	std::cout << "Сума до оплати з заокругленням: " << total.bills << " Гривень " << total.coins << " Копійок" << std::endl;
 }

@@ -1,15 +1,15 @@
-#include <iostream>
 #include <stdio.h>
 #include "Header.h"
 
 int main() {
 	const int size = 100;
-
-	FILE* list;
-	int err = fopen_s(&list, "C:/Users/Davyd/Desktop/list1.txt", "r");
 	product items[size];
-	int i = 0;
 
+    FILE* list;
+	int err = fopen_s(&list, "C:/Users/Davyd/Desktop/list1.txt", "r");
+	if (err != 0) return 1;
+
+	int i = 0;
 	while (i < size && fscanf_s(list, "%d %hi %hi", &items[i].bills, &items[i].coins, &items[i].count) == 3) {
 		i++;
 	}
