@@ -1,38 +1,47 @@
 #include <iostream>
 #include "Header.h"
 
-void product::plus(int bills_x, short int coins_x) {
-	bills += bills_x;
-	coins += coins_x;
+void plus(product *a, product b) {
+	a->bills += b.bills;
+	a->coins += b.coins;
 }
 
-void product::multiply(short int x) {
-	bills *= x;
-	coins *= x;
+void multiply(product *a,short int x) {
+	a->bills *= x;
+	a->coins *= x;
 }
 
-void product::rounding() {
-	if (coins >= 100) {
-		bills += coins / 100;
-		coins = coins % 100;
+void rounding(product *a) {
+	if (a->coins >= 100) {
+		a->bills += a->coins / 100;
+		a->coins = a->coins % 100;
 	}
 }
-
-void product::output() {
-	product::rounding();
-	std::cout << "Ціна продукту: " << bills << " Гривень " << coins << " Копійок" << std::endl;
+void stonks(product *a) {
+	a->coins = ((a->coins + 6) / 10) * 10;
 }
 
-void product::totalcalculate(product items[], int size) {
-	product total;
+void output(product a) {
+	rounding(&a);
+	std::cout << "Ціна продукту: " << a.bills << " Гривень " << a.coins << " Копійок" << std::endl;
+}
 
-	for (int i = 0; i < size; i++) {
-		items[i].multiply(items[i].count);
-		total.plus(items[i].bills, items[i].coins);
+void totalcalculate(const char* path) {
+	product total{0,0};
+	FILE* list;
+	int err = fopen_s(&list, path, "r");
+	if (err != 0) return; 
+	product temp;
+	short int x;
+
+    while (fscanf_s(list, "%*s %d %hi %hi", &temp.bills, &temp.coins, &x) == 3) {
+		multiply(&temp, x);
+		plus(&total, temp);
 	}
-	total.rounding();
+	rounding(&total);
 	std::cout << "Сума чеку: " << total.bills << " Гривень " << total.coins << " Копійок" << std::endl;
-	total.coins = ((total.coins + 9) / 10) * 10;
-	total.rounding();
+	stonks(&total);
 	std::cout << "Сума до оплати з заокругленням: " << total.bills << " Гривень " << total.coins << " Копійок" << std::endl;
+	fclose(list);
 }
+
